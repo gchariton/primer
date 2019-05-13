@@ -1,5 +1,5 @@
 # factorization
 
-Large integer factorization
+Any-size Native-number factorization
 
-This is an attempt to factorize really big integers.
+This is an attempt to factorize any given native number, no matter its size.
