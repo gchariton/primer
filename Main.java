@@ -2,17 +2,19 @@ import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.*;
+
 public class Main {
 
-    static long hops = 0;
+    public static String inputInteger = null;
 
     public static void main(String[] args) {
+        inputInteger = args[0];
         BigInteger BI = null;
         List<BigInteger> resultList = null;
 
-        // while (args[0] == null || args[0].matches("[0-9]+")) {
-        // System.out.println("Please enter a valid integer number.");
-        // }
+        // Setting up GUI
+        createWindowPane();
 
         try {
             BI = new BigInteger(args[0]);
@@ -30,6 +32,31 @@ public class Main {
             System.out.print("Given number's prime factors are: ");
             System.out.println(resultList);
         }
+    }
+
+    private static void createWindowPane() {
+
+        // Set main application window
+        JFrame frame = new JFrame("Primer");
+        frame.setSize(800, 600); // Window dimensions
+        frame.setLocationRelativeTo(null); // Center of the screen
+        frame.setLayout(null);
+        frame.setVisible(true);
+
+        // Set the main menu bar
+        JMenuBar menuBar = new JMenuBar();
+        frame.setJMenuBar(menuBar);
+
+        // Set the Actions menu item
+        JMenu actionsMenu = new JMenu("Actions");
+
+        // Set the Help menu item
+        JMenu helpMenu = new JMenu("Help");
+
+        // Add menu items to the menu bar
+        menuBar.add(actionsMenu);
+        menuBar.add(helpMenu);
+
     }
 
     private static List<BigInteger> findPrimeFactors(BigInteger n) {
