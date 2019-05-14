@@ -1,11 +1,14 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.*;
 
-public class Main {
+public class Main extends JFrame implements ActionListener {
 
+    private static final long serialVersionUID = 1L;
     public static String inputInteger = null;
 
     public static void main(String[] args) {
@@ -14,7 +17,7 @@ public class Main {
         List<BigInteger> resultList = null;
 
         // Setting up GUI
-        createWindowPane();
+        new Main().createWindowPane();
 
         try {
             BI = new BigInteger(args[0]);
@@ -34,7 +37,7 @@ public class Main {
         }
     }
 
-    private static void createWindowPane() {
+    private void createWindowPane() {
 
         // Set main application window
         JFrame frame = new JFrame("Primer");
@@ -42,15 +45,19 @@ public class Main {
         frame.setLocationRelativeTo(null); // Center of the screen
         frame.setLayout(null);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Set the main menu bar
         JMenuBar menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
 
-        // Set the Actions menu item
+        // Build the Actions menu item
         JMenu actionsMenu = new JMenu("Actions");
+        JMenu exitItem = new JMenu("Exit");
+        actionsMenu.add(exitItem);
+        exitItem.addActionListener(this);
 
-        // Set the Help menu item
+        // Build the Help menu item
         JMenu helpMenu = new JMenu("Help");
 
         // Add menu items to the menu bar
@@ -59,6 +66,15 @@ public class Main {
 
     }
 
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("outside");
+        if ("Exit".equals(e.getActionCommand())) {
+            System.out.println("inside");
+            System.exit(0);
+        }
+    }
+
+    // Checks input and calculates prime factors
     private static List<BigInteger> findPrimeFactors(BigInteger n) {
         BigInteger two = BigInteger.valueOf(2);
         List<BigInteger> fs = new LinkedList<BigInteger>();
