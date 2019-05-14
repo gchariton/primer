@@ -1,32 +1,43 @@
 import java.math.BigInteger;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Main {
 
     static long hops = 0;
 
     public static void main(String[] args) {
+        BigInteger BI = null;
+        List<BigInteger> resultList = null;
 
-        LinkedList<BigInteger> resultList = null;
+        // while (args[0] == null || args[0].matches("[0-9]+")) {
+        // System.out.println("Please enter a valid integer number.");
+        // }
 
-        BigInteger BI = new BigInteger(args[0]);
+        try {
+            BI = new BigInteger(args[0]);
+        } catch (NumberFormatException nfe) {
+            System.out.println("Please enter a valid integer.");
+            System.out.println("Program will now exit.");
+            System.exit(0);
+        }
 
         resultList = findPrimeFactors(BI);
 
         if (resultList.size() == 1) {
             System.out.println("Given number is a prime.");
         } else {
-            System.out.print("Number's prime factors are: ");
+            System.out.print("Given number's prime factors are: ");
             System.out.println(resultList);
         }
     }
 
-    private static LinkedList<BigInteger> findPrimeFactors(BigInteger n) {
+    private static List<BigInteger> findPrimeFactors(BigInteger n) {
         BigInteger two = BigInteger.valueOf(2);
-        LinkedList<BigInteger> fs = new LinkedList<>();
+        List<BigInteger> fs = new LinkedList<BigInteger>();
 
         if (n.compareTo(two) < 0) {
-            throw new IllegalArgumentException("must be greater than one");
+            throw new IllegalArgumentException("Given integer must be greater than 1.");
         }
 
         while (n.mod(two).equals(BigInteger.ZERO)) {
