@@ -17,4 +17,4 @@ Standard style, using exclusively VS Code.
 Core Java.
 
 ## License
-MIT © [George Charitonidis]()
+MIT © George Charitonidis
