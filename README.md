@@ -1,5 +1,20 @@
-# Primer
+## Primer
+An attempt to analyze any given integer (no matter its size) into prime factors.
 
-Any-size Native-number factorization
+## Motivation
+My passion concerning mathematics and prime numbers (Riemann hypothesis and cryptography).
 
-This is an attempt to factorize any given native number, no matter its size.
+## Build status
+Under heavy construction, adding fixes and features every day. As well as bugs lol.
+
+## Code style
+Standard style, using exclusively VS Code.
+ 
+## Screenshots
+// TODO
+
+## Tech/framework used
+Core Java.
+
+## License
+MIT © [Yourname]()
