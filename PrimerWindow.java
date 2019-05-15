@@ -69,7 +69,6 @@ public class PrimerWindow extends JFrame implements ActionListener {
         if ("Exit".equals(e.getActionCommand())) {
             System.exit(0);
         } else if ("About".equals(e.getActionCommand())) {
-            System.out.println("in");
             new AboutWindow().createAboutWindow("Primer");
         }
     }
