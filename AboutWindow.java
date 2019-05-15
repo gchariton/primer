@@ -16,9 +16,13 @@ public class AboutWindow extends JFrame implements ActionListener {
 
         // Set About window
         aboutFrame = new JFrame("About " + appName);
-        aboutFrame.setSize(300, 180); // Window dimensions
+        aboutFrame.setSize(300, 120); // Window dimensions
         aboutFrame.setResizable(false); // Fixed dimensions
         aboutFrame.setLocationRelativeTo(null); // Center of the screen
+
+        // Set window icon
+        ImageIcon icon = new ImageIcon(getClass().getResource("images/appicon.png"));
+        aboutFrame.setIconImage(icon.getImage());
 
         // Set my logo
         JLabel aboutLogo = new JLabel(new ImageIcon("images/chgeorge.png"));
@@ -30,12 +34,12 @@ public class AboutWindow extends JFrame implements ActionListener {
         aboutFrame.add(aboutTextLabel);
         aboutTextLabel.setBounds(78, 10, 212, 58);
         aboutTextLabel.setText("<html><b>" + appName + "</b><br />Developed by George Charitonidis."
-                + "<br /> Contact: chgeorge@gmail.com");
+                + "<br /> Contact: chgeorge@gmail.com</html>");
 
         // Set OK button
         JButton okButton = new JButton("OK");
-        aboutFrame.add(okButton);
-        okButton.setBounds(125, 105, 50, 25);
+        // aboutFrame.add(okButton);
+        okButton.setBounds(125, 78, 50, 25);
         okButton.addActionListener(this);
 
         // Final touches
