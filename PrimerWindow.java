@@ -3,6 +3,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class PrimerWindow extends JFrame implements ActionListener {
 
@@ -16,22 +17,33 @@ public class PrimerWindow extends JFrame implements ActionListener {
         frame.setLocationRelativeTo(null); // Center of the screen
         frame.setLayout(null);
 
+        // Declare the menu bar and its items
+        JMenuBar menuBar;
+
+        JMenu actionsMenu;
+        JMenuItem exitItem;
+
+        JMenu helpMenu;
+        JMenuItem aboutItem;
+
         // Set the main menu bar
-        JMenuBar menuBar = new JMenuBar();
+        menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
 
         // Build the Actions menu item
-        JMenu actionsMenu = new JMenu("Actions");
-        JMenu exitItem = new JMenu("Exit");
+        actionsMenu = new JMenu("Actions");
+        menuBar.add(actionsMenu);
+
+        exitItem = new JMenuItem("Exit");
         actionsMenu.add(exitItem);
         exitItem.addActionListener(this);
 
         // Build the Help menu item
-        JMenu helpMenu = new JMenu("Help");
-
-        // Add menu items to the menu bar
-        menuBar.add(actionsMenu);
+        helpMenu = new JMenu("Help");
         menuBar.add(helpMenu);
+
+        aboutItem = new JMenuItem("About");
+        helpMenu.add(aboutItem);
 
         // Final touches
         frame.setVisible(true);
@@ -40,9 +52,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        System.out.println("outside");
         if ("Exit".equals(e.getActionCommand())) {
-            System.out.println("inside");
             System.exit(0);
         }
     }
