@@ -9,9 +9,10 @@ public class Main {
         BigInteger BI = null;
         List<BigInteger> resultList = null;
 
-        // Setting up GUI
+        // Setting up main window GUI
         new PrimerWindow().createPrimerWindow();
 
+        // Insert the integer to check
         try {
             BI = new BigInteger(args[0]);
         } catch (NumberFormatException nfe) {
@@ -20,9 +21,11 @@ public class Main {
             System.exit(0);
         }
 
+        // The list of the prime factors of the given integer
         resultList = new PrimeFactors().findPrimeFactors(BI);
 
-        if (resultList.size() == 1) {
+        // Export results
+        if (resultList.size() == 1) { // In this case, the given integer is a prime itself
             System.out.println("Given number is a prime.");
         } else {
             System.out.print("Given number's prime factors are: ");

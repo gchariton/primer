@@ -13,6 +13,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
 
     void createPrimerWindow() {
 
+        // Playing around with the Look 'n' Feel stuff
         try {
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -58,6 +59,12 @@ public class PrimerWindow extends JFrame implements ActionListener {
         aboutItem = new JMenuItem("About");
         helpMenu.add(aboutItem);
         aboutItem.addActionListener(this);
+
+        // Add the integer input field and submit button
+        // TODO
+
+        // Add the results and messages area
+        // TODO
 
         // Final touches
         frame.setVisible(true);
