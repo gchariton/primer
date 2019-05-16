@@ -14,6 +14,9 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import net.miginfocom.swing.MigLayout;
+import net.miginfocom.layout.Grid;
+
 public class PrimerWindow extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
