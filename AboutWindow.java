@@ -45,7 +45,7 @@ public class AboutWindow extends JFrame implements ActionListener {
         aboutFrame.pack();
 
         // Final touches
-        aboutFrame.setLayout(null);
+        aboutFrame.setLocationRelativeTo(null); // Center of screen
         aboutFrame.setVisible(true);
 
     }

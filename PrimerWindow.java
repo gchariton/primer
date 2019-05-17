@@ -28,6 +28,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
     private JTextField textField;
     private List<BigInteger> resultList;
     private JFrame frame;
+    private JLabel resultsLabel;
 
     void createPrimerWindow() {
 
@@ -44,7 +45,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
 
         // Set main application window
         frame = new JFrame("Primer");
-        frame.setSize(800, 600); // Window dimensions
+        frame.setSize(600, 300); // Window dimensions
         frame.setLocationRelativeTo(null); // Center of the screen
 
         // Set window icon
@@ -95,25 +96,34 @@ public class PrimerWindow extends JFrame implements ActionListener {
         inPanel.setBorder(inBorder);
 
         // Text area to insert the number
-        JTextArea textArea = new JTextArea(10, 10);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        inPanel.add(scrollPane, "cell 0 0, grow");
+        textField = new JTextField();
+        inPanel.add(textField, "cell 0 0, grow");
 
         // Calculation button
         JButton calcButton = new JButton("Calculate!");
         inPanel.add(calcButton, "cell 0 1, growx");
         calcButton.addActionListener(this);
+        frame.getRootPane().setDefaultButton(calcButton); // Calculate when hitting the Enter key
 
         // Output Panel
-        JPanel outPanel = new JPanel(new MigLayout("wrap 1", "", "[]"));
+        JPanel outPanel = new JPanel(new MigLayout("wrap 1", "[grow]", "[grow]"));
+
+        TitledBorder outBorder = new TitledBorder("Results area");
+        outBorder.setTitlePosition(TitledBorder.TOP);
+        outBorder.setTitleJustification(TitledBorder.LEFT);
+        outPanel.setBorder(outBorder);
+
+        // Results label
+        resultsLabel = new JLabel();
+        outPanel.add(resultsLabel, "cell 0 0, growx");
 
         // Concatenate panels
         mainPanel.add(inPanel, "span, grow");
-        mainPanel.add(outPanel);
+        mainPanel.add(outPanel, "span, grow");
 
         // Final touches
         frame.add(mainPanel, BorderLayout.CENTER);
-        // frame.pack();
+        frame.setLocationRelativeTo(null); // Center of screen
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -125,21 +135,51 @@ public class PrimerWindow extends JFrame implements ActionListener {
         } else if ("About".equals(e.getActionCommand())) {
             new AboutWindow().createAboutWindow("Primer", "v2019.05");
         } else if ("Calculate!".equals(e.getActionCommand())) {
-            resultList = new PrimeFactors().findPrimeFactors(new BigInteger(textField.getText()));
 
-            // Results area
-            JLabel resultsLabel = new JLabel();
-            frame.add(resultsLabel);
-            resultsLabel.setBounds(300, 15, 600, 200);
-
-            // Export results
-            if (resultList.size() == 1) { // In this case, the given integer is a prime itself
-                resultsLabel.setText("Given number is a prime.");
-
+            if (!isInteger(textField.getText())) { // Check if number is in a correct format or not
+                resultsLabel.setText(null);
+                resultsLabel.setText("The number you entered is not a valid integer.");
+            } else if (Integer.parseInt(textField.getText()) < 2) { // Check if number is greater than 1
+                resultsLabel.setText(null);
+                resultsLabel.setText("Given number must be greater than 1.");
             } else {
-                System.out.print("Given number's prime factors are: ");
-                System.out.println(resultList);
+                // Linked list containing the prime factors of the given number
+                resultList = new PrimeFactors().findPrimeFactors(new BigInteger(textField.getText()));
+
+                // Export results
+                if (resultList.size() == 1) { // In this case, the given integer is a prime itself
+                    resultsLabel.setText(null);
+                    resultsLabel.setText("Given number is a prime itself.");
+
+                } else { // In this case the prime factors of the given number are printed
+                    resultsLabel.setText(null);
+                    resultsLabel.setText("Given number's prime factors are: " + resultList);
+                }
             }
         }
+    }
+
+    public static boolean isInteger(String str) {
+        if (str == null) {
+            return false;
+        }
+        int length = str.length();
+        if (length == 0) {
+            return false;
+        }
+        int i = 0;
+        if (str.charAt(0) == '-') {
+            if (length == 1) {
+                return false;
+            }
+            i = 1;
+        }
+        for (; i < length; i++) {
+            char c = str.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
     }
 }
