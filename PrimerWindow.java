@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigInteger;
@@ -10,9 +11,13 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.border.TitledBorder;
 
 import net.miginfocom.swing.MigLayout;
 import net.miginfocom.layout.Grid;
@@ -26,7 +31,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
 
     void createPrimerWindow() {
 
-        // Playing around with the Look 'n' Feel stuff
+        // Set the Look 'n' Feel
         try {
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -40,14 +45,13 @@ public class PrimerWindow extends JFrame implements ActionListener {
         // Set main application window
         frame = new JFrame("Primer");
         frame.setSize(800, 600); // Window dimensions
-        frame.setResizable(false); // Fixed dimensions
         frame.setLocationRelativeTo(null); // Center of the screen
-        frame.setLayout(null);
 
         // Set window icon
         ImageIcon icon = new ImageIcon(getClass().getResource("images/appicon.png"));
         frame.setIconImage(icon.getImage());
 
+        // MENU **********************************************************
         // Declare the menu bar and its items
         JMenuBar menuBar;
 
@@ -77,22 +81,39 @@ public class PrimerWindow extends JFrame implements ActionListener {
         helpMenu.add(aboutItem);
         aboutItem.addActionListener(this);
 
-        // Add the integer input field and submit button
-        JLabel enterIntegerLabel = new JLabel();
-        frame.add(enterIntegerLabel);
-        enterIntegerLabel.setBounds(15, 10, 780, 25);
-        enterIntegerLabel.setText("<html><b>Enter or paste the integer inside this field:</b></html>");
+        // PANELS **********************************************************
 
-        textField = new JTextField();
-        frame.add(textField);
-        textField.setBounds(10, 40, 600, 30);
+        // Main Panel
+        JPanel mainPanel = new JPanel(new MigLayout("wrap 1", "10 [grow] 10", "10 [] 5 [] 10 [] 10"));
 
+        // Input Panel
+        JPanel inPanel = new JPanel(new MigLayout("wrap 1", "[grow]", "[grow] [grow]"));
+
+        TitledBorder inBorder = new TitledBorder("Insert number in this area");
+        inBorder.setTitlePosition(TitledBorder.TOP);
+        inBorder.setTitleJustification(TitledBorder.LEFT);
+        inPanel.setBorder(inBorder);
+
+        // Text area to insert the number
+        JTextArea textArea = new JTextArea(10, 10);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        inPanel.add(scrollPane, "cell 0 0, grow");
+
+        // Calculation button
         JButton calcButton = new JButton("Calculate!");
-        frame.add(calcButton);
-        calcButton.setBounds(620, 40, 100, 30);
+        inPanel.add(calcButton, "cell 0 1, growx");
         calcButton.addActionListener(this);
 
+        // Output Panel
+        JPanel outPanel = new JPanel(new MigLayout("wrap 1", "", "[]"));
+
+        // Concatenate panels
+        mainPanel.add(inPanel, "span, grow");
+        mainPanel.add(outPanel);
+
         // Final touches
+        frame.add(mainPanel, BorderLayout.CENTER);
+        // frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -102,7 +123,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
         if ("Exit".equals(e.getActionCommand())) {
             System.exit(0);
         } else if ("About".equals(e.getActionCommand())) {
-            new AboutWindow().createAboutWindow("Primer");
+            new AboutWindow().createAboutWindow("Primer", "v2019.05");
         } else if ("Calculate!".equals(e.getActionCommand())) {
             resultList = new PrimeFactors().findPrimeFactors(new BigInteger(textField.getText()));
 

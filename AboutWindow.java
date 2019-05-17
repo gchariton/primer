@@ -17,11 +17,10 @@ public class AboutWindow extends JFrame implements ActionListener {
     // Declare current JFrame to be used belown in actionPerformed method
     private JFrame aboutFrame;
 
-    public void createAboutWindow(String appName) {
+    public void createAboutWindow(String appName, String version) {
 
         // Set About window
         aboutFrame = new JFrame("About " + appName);
-        aboutFrame.setSize(400, 150); // Window dimensions
         aboutFrame.setResizable(false); // Fixed dimensions
         aboutFrame.setLocationRelativeTo(null); // Center of the screen
 
@@ -34,7 +33,7 @@ public class AboutWindow extends JFrame implements ActionListener {
 
         // Set About text
         JLabel aboutTextLabel = new JLabel();
-        aboutTextLabel.setText("<html><b>" + appName + "</b><br />Developed by George Charitonidis."
+        aboutTextLabel.setText("<html><b>" + appName + "</b> " + version + "<br />Developed by George Charitonidis."
                 + "<br /> Contact: chgeorge@gmail.com</html>");
 
         JPanel panel = new JPanel(new MigLayout("wrap 2", "10 [] 10 [] 10"));
