@@ -7,14 +7,10 @@ public class PrimeFactors {
     // Checks input and calculates prime factors
     public List<BigInteger> findPrimeFactors(BigInteger n) {
         BigInteger two = BigInteger.valueOf(2);
-        List<BigInteger> fs = new LinkedList<BigInteger>();
-
-        if (n.compareTo(two) < 0) {
-            throw new IllegalArgumentException("Given integer must be greater than 1.");
-        }
+        List<BigInteger> primeFactorsList = new LinkedList<BigInteger>();
 
         while (n.mod(two).equals(BigInteger.ZERO)) {
-            fs.add(two);
+            primeFactorsList.add(two);
             n = n.divide(two);
         }
 
@@ -23,7 +19,7 @@ public class PrimeFactors {
 
             while (f.multiply(f).compareTo(n) <= 0) {
                 if (n.mod(f).equals(BigInteger.ZERO)) {
-                    fs.add(f);
+                    primeFactorsList.add(f);
                     n = n.divide(f);
                 } else {
                     f = f.add(two);
@@ -31,9 +27,9 @@ public class PrimeFactors {
 
             }
 
-            fs.add(n);
+            primeFactorsList.add(n);
         }
 
-        return fs;
+        return primeFactorsList;
     }
 }

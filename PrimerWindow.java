@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.math.BigInteger;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -43,7 +44,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
         frame.setResizable(false); // Fixed size
         frame.setLocationRelativeTo(null); // Center of the screen
 
-        // Set window icon
+        // Set application icon
         ImageIcon icon = new ImageIcon(getClass().getResource("images/appicon.png"));
         frame.setIconImage(icon.getImage());
 
@@ -65,7 +66,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
         actionsMenu = new JMenu("Actions");
         menuBar.add(actionsMenu);
 
-        exitItem = new JMenuItem("Exit");
+        exitItem = new JMenuItem("Exit", new ImageIcon(PrimerWindow.class.getResource("/images/icons/exit.png")));
         actionsMenu.add(exitItem);
         exitItem.addActionListener(this);
 
@@ -73,7 +74,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
         helpMenu = new JMenu("Help");
         menuBar.add(helpMenu);
 
-        aboutItem = new JMenuItem("About");
+        aboutItem = new JMenuItem("About", new ImageIcon(PrimerWindow.class.getResource("/images/icons/about.png")));
         helpMenu.add(aboutItem);
         aboutItem.addActionListener(this);
 
@@ -110,7 +111,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
 
         // Results label
         resultsLabel = new JLabel();
-        outPanel.add(resultsLabel, "cell 0 0, grow");
+        outPanel.add(resultsLabel, "push, grow");
 
         // Concatenate panels
         mainPanel.add(inPanel, "grow");
@@ -130,11 +131,14 @@ public class PrimerWindow extends JFrame implements ActionListener {
         } else if ("About".equals(e.getActionCommand())) {
             new AboutWindow().createAboutWindow("Primer", "v2019.05");
         } else if ("Calculate!".equals(e.getActionCommand())) {
+            resultsLabel.setText(null);
+            resultsLabel.setText("Calculating...");
 
             if (!isInteger(textField.getText())) { // Check if number is in a correct format or not
                 resultsLabel.setText(null);
                 resultsLabel.setText("The number you entered is not a valid integer.");
-            } else if (Integer.parseInt(textField.getText()) < 2) { // Check if number is greater than 1
+            } else if ((new BigInteger(textField.getText())).compareTo((new BigInteger("2"))) == -1) {
+                // Check if given number is greater than 1
                 resultsLabel.setText(null);
                 resultsLabel.setText("Given number must be greater than 1.");
             } else {
