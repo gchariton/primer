@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.FontUIResource;
 
 import net.miginfocom.swing.MigLayout;
 import net.miginfocom.layout.Grid;
@@ -33,19 +34,13 @@ public class PrimerWindow extends JFrame implements ActionListener {
     void createPrimerWindow() {
 
         // Set the Look 'n' Feel
-        try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Problem loading the GUI Look 'n' Feel.");
-        }
+        new LookFeel().setUIStyle("Windows"); // Global UI style
+        new LookFeel().setUIFont(new FontUIResource("Tahoma", 0, 13)); // Global Font style
 
         // Set main application window
         frame = new JFrame("Primer");
-        frame.setSize(600, 300); // Window dimensions
+        frame.setSize(500, 300); // Window dimensions
+        frame.setResizable(false); // Fixed size
         frame.setLocationRelativeTo(null); // Center of the screen
 
         // Set window icon
@@ -90,7 +85,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
         // Input Panel
         JPanel inPanel = new JPanel(new MigLayout("wrap 1", "[grow]", "[grow] [grow]"));
 
-        TitledBorder inBorder = new TitledBorder("Insert number in this area");
+        TitledBorder inBorder = new TitledBorder("Insert number to analyze");
         inBorder.setTitlePosition(TitledBorder.TOP);
         inBorder.setTitleJustification(TitledBorder.LEFT);
         inPanel.setBorder(inBorder);
@@ -115,11 +110,11 @@ public class PrimerWindow extends JFrame implements ActionListener {
 
         // Results label
         resultsLabel = new JLabel();
-        outPanel.add(resultsLabel, "cell 0 0, growx");
+        outPanel.add(resultsLabel, "cell 0 0, grow");
 
         // Concatenate panels
-        mainPanel.add(inPanel, "span, grow");
-        mainPanel.add(outPanel, "span, grow");
+        mainPanel.add(inPanel, "grow");
+        mainPanel.add(outPanel, "grow");
 
         // Final touches
         frame.add(mainPanel, BorderLayout.CENTER);
@@ -153,7 +148,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
 
                 } else { // In this case the prime factors of the given number are printed
                     resultsLabel.setText(null);
-                    resultsLabel.setText("Given number's prime factors are: " + resultList);
+                    resultsLabel.setText("<html>Given number's prime factors are: <b>" + resultList + "</b></html>");
                 }
             }
         }
