@@ -11,7 +11,11 @@ Under heavy construction, adding fixes and features every day. As well as bugs l
 Standard style, using exclusively VS Code.
  
 ## Screenshots
-// TODO
+![](images/screenshots/ss01.png)
+
+![](images/screenshots/ss02.png)
+
+![](images/screenshots/ss03.png)
 
 ## Tech/framework used
 Core Java.
