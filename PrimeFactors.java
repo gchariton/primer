@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.List;
+
 import java.math.BigInteger;
 
 public class PrimeFactors {
@@ -24,7 +25,6 @@ public class PrimeFactors {
                 } else {
                     f = f.add(two);
                 }
-
             }
 
             primeFactorsList.add(n);

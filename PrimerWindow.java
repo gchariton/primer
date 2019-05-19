@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.TitledBorder;
@@ -28,9 +29,10 @@ public class PrimerWindow extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private JTextField textField;
-    private List<BigInteger> resultList;
     private JFrame frame;
-    private JLabel resultsLabel;
+    // protected static List<BigInteger> resultList;
+    private JButton calcButton;
+    protected static JLabel resultsLabel;
 
     void createPrimerWindow() {
 
@@ -96,7 +98,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
         inPanel.add(textField, "cell 0 0, grow");
 
         // Calculation button
-        JButton calcButton = new JButton("Calculate!");
+        calcButton = new JButton("Calculate!");
         inPanel.add(calcButton, "cell 0 1, growx");
         calcButton.addActionListener(this);
         frame.getRootPane().setDefaultButton(calcButton); // Calculate when hitting the Enter key
@@ -131,8 +133,6 @@ public class PrimerWindow extends JFrame implements ActionListener {
         } else if ("About".equals(e.getActionCommand())) {
             new AboutWindow().createAboutWindow("Primer", "v2019.05");
         } else if ("Calculate!".equals(e.getActionCommand())) {
-            resultsLabel.setText(null);
-            resultsLabel.setText("Calculating...");
 
             if (!isInteger(textField.getText())) { // Check if number is in a correct format or not
                 resultsLabel.setText(null);
@@ -142,18 +142,27 @@ public class PrimerWindow extends JFrame implements ActionListener {
                 resultsLabel.setText(null);
                 resultsLabel.setText("Given number must be greater than 1.");
             } else {
-                // Linked list containing the prime factors of the given number
-                resultList = new PrimeFactors().findPrimeFactors(new BigInteger(textField.getText()));
 
-                // Export results
-                if (resultList.size() == 1) { // In this case, the given integer is a prime itself
-                    resultsLabel.setText(null);
-                    resultsLabel.setText("Given number is a prime itself.");
+                resultsLabel.setText(null);
+                resultsLabel.setText("Calculating...");
 
-                } else { // In this case the prime factors of the given number are printed
-                    resultsLabel.setText(null);
-                    resultsLabel.setText("<html>Given number's prime factors are: <b>" + resultList + "</b></html>");
-                }
+                SwingWorker primeWorker;
+                primeWorker = new primeFactorsWorker(new BigInteger(textField.getText()), calcButton, resultsLabel);
+                primeWorker.execute();
+
+                // while (primeWorker.isDone()) {
+                // System.out.println(resultList);
+                // if (resultList.size() == 1) { // Given number is a prime itself
+                // resultsLabel.setText(null);
+                // resultsLabel.setText("Given number is a prime itself.");
+
+                // } else { // In this case the prime factors of the given number are printed
+                // resultsLabel.setText(null);
+                // resultsLabel
+                // .setText("<html>Given number's prime factors are: <b>" + resultList +
+                // "</b></html>");
+                // }
+                // }
             }
         }
     }
