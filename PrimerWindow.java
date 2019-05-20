@@ -30,9 +30,9 @@ public class PrimerWindow extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
     private JTextField textField;
     private JFrame frame;
-    // protected static List<BigInteger> resultList;
     private JButton calcButton;
-    protected static JLabel resultsLabel;
+    private JLabel resultsLabel;
+    private SwingWorker primeWorker;
 
     void createPrimerWindow() {
 
@@ -145,25 +145,22 @@ public class PrimerWindow extends JFrame implements ActionListener {
 
                 resultsLabel.setText(null);
                 resultsLabel.setText("Calculating...");
+                calcButton.setText(null);
+                calcButton.setText("Click here to cancel process");
 
-                SwingWorker primeWorker;
                 primeWorker = new primeFactorsWorker(new BigInteger(textField.getText()), calcButton, resultsLabel);
                 primeWorker.execute();
 
-                // while (primeWorker.isDone()) {
-                // System.out.println(resultList);
-                // if (resultList.size() == 1) { // Given number is a prime itself
-                // resultsLabel.setText(null);
-                // resultsLabel.setText("Given number is a prime itself.");
-
-                // } else { // In this case the prime factors of the given number are printed
-                // resultsLabel.setText(null);
-                // resultsLabel
-                // .setText("<html>Given number's prime factors are: <b>" + resultList +
-                // "</b></html>");
-                // }
-                // }
             }
+        } else if ("Click here to cancel process".equals(e.getActionCommand())) {
+            primeWorker.cancel(true);
+
+            // Reset calculation button
+            calcButton.setText(null);
+            calcButton.setText("Calculate!");
+
+            // Reset results label
+            resultsLabel.setText(null);
         }
     }
 

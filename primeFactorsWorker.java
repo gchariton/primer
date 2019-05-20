@@ -10,14 +10,14 @@ public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
 
     private List<BigInteger> primeFactorsList;
     private BigInteger bi;
-    private JButton cancelButton;
-    private JLabel msgLabel;
+    private JButton calcButton;
+    private JLabel resultsLabel;
 
     // Constructor
-    public primeFactorsWorker(BigInteger bi, JButton cancelButton, JLabel msgLabel) {
+    public primeFactorsWorker(BigInteger bi, JButton calcButton, JLabel resultsLabel) {
         this.bi = bi;
-        this.cancelButton = cancelButton;
-        this.msgLabel = msgLabel;
+        this.calcButton = calcButton;
+        this.resultsLabel = resultsLabel;
     }
 
     @Override
@@ -50,10 +50,7 @@ public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
 
     @Override
     protected void process(List<Integer> progress) {
-        for (final Integer prg : progress) {
-            cancelButton.setText("<html><b>Click here to cancel process</b></html>");
-            msgLabel.setText("<html>Please wait...<br />Calculating... " + prg + "%</html>");
-        }
+
     }
 
     private static void stopIfInterrupted() throws InterruptedException {
@@ -67,17 +64,24 @@ public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
 
         try {
 
-            if (get().size() == 1) { // Given number is a prime itself
-                PrimerWindow.resultsLabel.setText(null);
-                PrimerWindow.resultsLabel.setText("Given number is a prime itself.");
-            } else { // In this case the prime factors of the given number are printed
-                PrimerWindow.resultsLabel.setText(null);
-                PrimerWindow.resultsLabel
-                        .setText("<html>Given number's prime factors are: <b>" + get() + "</b></html>");
+            if (!isCancelled()) { // Check if process was canceled by user
+
+                // Reset calculation button
+                calcButton.setText(null);
+                calcButton.setText("Calculate!");
+
+                // Export results
+                if (get().size() == 1) { // Given number is a prime itself
+                    resultsLabel.setText(null);
+                    resultsLabel.setText("Given number is a prime itself.");
+                } else { // In this case the prime factors of the given number are printed
+                    resultsLabel.setText(null);
+                    resultsLabel.setText("<html>Given number's prime factors are: <b>" + get() + "</b></html>");
+                }
             }
 
         } catch (Exception e) {
-
+            System.out.println("Exception in primeFactorsWorker.done()");
         }
 
     }
