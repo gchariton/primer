@@ -19,8 +19,8 @@ Standard style, using exclusively VS Code.
 
 ![](images/screenshots/ss03.png)
 
-## Tech/framework used
-Core Java.
+## Language/framework/tools used
+Core Java, MigLayout, Swing, SwingWorker
 
 ## License
 MIT © George Charitonidis
