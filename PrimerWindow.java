@@ -13,6 +13,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -32,12 +33,16 @@ public class PrimerWindow extends JFrame implements ActionListener {
     private JFrame frame;
     private JButton calcButton;
     private JLabel resultsLabel;
+    private JProgressBar progressBar;
     private SwingWorker primeWorker;
+
+    // Set UI style
+    private final String UI_STYLE = "Windows";
 
     void createPrimerWindow() {
 
         // Set the Look 'n' Feel
-        new LookFeel().setUIStyle("Windows"); // Global UI style
+        new LookFeel().setUIStyle(UI_STYLE); // Global UI style
         new LookFeel().setUIFont(new FontUIResource("Tahoma", 0, 13)); // Global Font style
 
         // Set main application window
@@ -83,7 +88,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
         // PANELS **********************************************************
 
         // Main Panel
-        JPanel mainPanel = new JPanel(new MigLayout("wrap 1", "10 [grow] 10", "10 [] 5 [] 10 [] 10"));
+        JPanel mainPanel = new JPanel(new MigLayout("wrap 1", "10 [grow] 10", "10 [] 10 [] 10"));
 
         // Input Panel
         JPanel inPanel = new JPanel(new MigLayout("wrap 1", "[grow]", "[grow] [grow]"));
@@ -115,6 +120,13 @@ public class PrimerWindow extends JFrame implements ActionListener {
         resultsLabel = new JLabel();
         outPanel.add(resultsLabel, "push, grow");
 
+        // Progress bar
+        progressBar = new JProgressBar();
+        progressBar.setIndeterminate(true);
+        progressBar.setSize(0, 3);
+        progressBar.setVisible(false);
+        outPanel.add(progressBar, "growx");
+
         // Concatenate panels
         mainPanel.add(inPanel, "grow");
         mainPanel.add(outPanel, "grow");
@@ -134,7 +146,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
             new AboutWindow().createAboutWindow("Primer", "v2019.05");
         } else if ("Calculate!".equals(e.getActionCommand())) {
 
-            if (!isInteger(textField.getText())) { // Check if number is in a correct format or not
+            if (!(new CheckNumber().isInteger(textField.getText()))) { // Check if number is in a correct format or not
                 resultsLabel.setText(null);
                 resultsLabel.setText("The number you entered is not a valid integer.");
             } else if ((new BigInteger(textField.getText())).compareTo((new BigInteger("2"))) == -1) {
@@ -145,15 +157,20 @@ public class PrimerWindow extends JFrame implements ActionListener {
 
                 resultsLabel.setText(null);
                 resultsLabel.setText("Calculating...");
+                progressBar.setVisible(true);
                 calcButton.setText(null);
                 calcButton.setText("Click here to cancel process");
 
-                primeWorker = new primeFactorsWorker(new BigInteger(textField.getText()), calcButton, resultsLabel);
+                primeWorker = new primeFactorsWorker(new BigInteger(textField.getText()), calcButton, resultsLabel,
+                        progressBar);
                 primeWorker.execute();
 
             }
         } else if ("Click here to cancel process".equals(e.getActionCommand())) {
             primeWorker.cancel(true);
+
+            // Reset progress bar
+            progressBar.setVisible(false);
 
             // Reset calculation button
             calcButton.setText(null);
@@ -162,29 +179,5 @@ public class PrimerWindow extends JFrame implements ActionListener {
             // Reset results label
             resultsLabel.setText(null);
         }
-    }
-
-    public static boolean isInteger(String str) {
-        if (str == null) {
-            return false;
-        }
-        int length = str.length();
-        if (length == 0) {
-            return false;
-        }
-        int i = 0;
-        if (str.charAt(0) == '-') {
-            if (length == 1) {
-                return false;
-            }
-            i = 1;
-        }
-        for (; i < length; i++) {
-            char c = str.charAt(i);
-            if (c < '0' || c > '9') {
-                return false;
-            }
-        }
-        return true;
     }
 }

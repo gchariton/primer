@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
 public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
@@ -12,12 +13,14 @@ public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
     private BigInteger bi;
     private JButton calcButton;
     private JLabel resultsLabel;
+    private JProgressBar progressBar;
 
     // Constructor
-    public primeFactorsWorker(BigInteger bi, JButton calcButton, JLabel resultsLabel) {
+    public primeFactorsWorker(BigInteger bi, JButton calcButton, JLabel resultsLabel, JProgressBar progressBar) {
         this.bi = bi;
         this.calcButton = calcButton;
         this.resultsLabel = resultsLabel;
+        this.progressBar = progressBar;
     }
 
     @Override
@@ -66,6 +69,9 @@ public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
 
             if (!isCancelled()) { // Check if process was canceled by user
 
+                // Reset progress bar
+                progressBar.setVisible(false);
+
                 // Reset calculation button
                 calcButton.setText(null);
                 calcButton.setText("Calculate!");
@@ -81,7 +87,7 @@ public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
             }
 
         } catch (Exception e) {
-            System.out.println("Exception in primeFactorsWorker.done()");
+            System.out.println("Exception in primeFactorsWorker.done()" + e);
         }
 
     }
