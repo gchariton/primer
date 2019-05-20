@@ -13,6 +13,8 @@ Standard style, using exclusively VS Code.
 ## Screenshots
 ![](images/screenshots/ss01.png)
 
+![](images/screenshots/ss04.png)
+
 ![](images/screenshots/ss02.png)
 
 ![](images/screenshots/ss03.png)
