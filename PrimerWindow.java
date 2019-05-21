@@ -1,4 +1,7 @@
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigInteger;
@@ -34,10 +37,13 @@ public class PrimerWindow extends JFrame implements ActionListener {
     private JButton calcButton;
     private JLabel resultsLabel;
     private JProgressBar progressBar;
+    private String copyResult = "";
     private SwingWorker primeWorker;
 
-    // Set UI style
+    // CONSTANT fields
     private final String UI_STYLE = "Windows";
+    private final String APP_NAME = "Primer";
+    private final String VERSION = "v2019.05";
 
     void createPrimerWindow() {
 
@@ -60,6 +66,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
         JMenuBar menuBar;
 
         JMenu actionsMenu;
+        JMenuItem copyItem;
         JMenuItem exitItem;
 
         JMenu helpMenu;
@@ -72,6 +79,10 @@ public class PrimerWindow extends JFrame implements ActionListener {
         // Build the Actions menu item
         actionsMenu = new JMenu("Actions");
         menuBar.add(actionsMenu);
+
+        copyItem = new JMenuItem("Copy");
+        actionsMenu.add(copyItem);
+        copyItem.addActionListener(this);
 
         exitItem = new JMenuItem("Exit", new ImageIcon(PrimerWindow.class.getResource("/images/icons/exit.png")));
         actionsMenu.add(exitItem);
@@ -140,12 +151,30 @@ public class PrimerWindow extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if ("Exit".equals(e.getActionCommand())) {
-            System.exit(0);
-        } else if ("About".equals(e.getActionCommand())) {
-            new AboutWindow().createAboutWindow("Primer", "v2019.05");
-        } else if ("Calculate!".equals(e.getActionCommand())) {
 
+        String actionCommand = e.getActionCommand();
+
+        switch (actionCommand) {
+        case ("Copy"): {
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            Clipboard clipboard = toolkit.getSystemClipboard();
+            StringSelection strSel = new StringSelection(copyResult);
+            clipboard.setContents(strSel, null);
+
+            break;
+        }
+
+        case ("Exit"): {
+            System.exit(0);
+            break;
+        }
+
+        case ("About"): {
+            new AboutWindow().createAboutWindow(APP_NAME, VERSION);
+            break;
+        }
+
+        case ("Calculate!"): {
             if (!(new CheckNumber().isInteger(textField.getText()))) { // Check if number is in a correct format or not
                 resultsLabel.setText(null);
                 resultsLabel.setText("The number you entered is not a valid integer.");
@@ -162,11 +191,15 @@ public class PrimerWindow extends JFrame implements ActionListener {
                 calcButton.setText("Click here to cancel process");
 
                 primeWorker = new primeFactorsWorker(new BigInteger(textField.getText()), calcButton, resultsLabel,
-                        progressBar);
+                        progressBar, copyResult);
                 primeWorker.execute();
 
             }
-        } else if ("Click here to cancel process".equals(e.getActionCommand())) {
+            break;
+        }
+
+        case ("Click here to cancel process"): {
+
             primeWorker.cancel(true);
 
             // Reset progress bar
@@ -178,6 +211,9 @@ public class PrimerWindow extends JFrame implements ActionListener {
 
             // Reset results label
             resultsLabel.setText(null);
+
+            break;
+        }
         }
     }
 }

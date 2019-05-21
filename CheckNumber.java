@@ -8,26 +8,29 @@ public class CheckNumber {
      * @return Returns true if given string is a valid integer, otherwise false.
      */
     public boolean isInteger(String str) {
-        if (str == null) {
+        if (str == null || str.length() == 0) {
             return false;
-        }
-        int length = str.length();
-        if (length == 0) {
-            return false;
-        }
-        int i = 0;
-        if (str.charAt(0) == '-') {
-            if (length == 1) {
-                return false;
+        } else {
+            int numLength = str.length();
+
+            int i = 0;
+
+            if (str.charAt(0) == '-') {
+                if (numLength == 1) {
+                    return false;
+                }
+                i = 1;
             }
-            i = 1;
-        }
-        for (; i < length; i++) {
-            char c = str.charAt(i);
-            if (c < '0' || c > '9') {
-                return false;
+
+            for (; i < numLength; i++) {
+                char c = str.charAt(i);
+                if (c < '0' || c > '9') {
+                    return false;
+                }
             }
+
+            return true;
         }
-        return true;
+
     }
 }

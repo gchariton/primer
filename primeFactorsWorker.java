@@ -14,13 +14,16 @@ public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
     private JButton calcButton;
     private JLabel resultsLabel;
     private JProgressBar progressBar;
+    private String copyResult = "";
 
     // Constructor
-    public primeFactorsWorker(BigInteger bi, JButton calcButton, JLabel resultsLabel, JProgressBar progressBar) {
+    public primeFactorsWorker(BigInteger bi, JButton calcButton, JLabel resultsLabel, JProgressBar progressBar,
+            String copyResult) {
         this.bi = bi;
         this.calcButton = calcButton;
         this.resultsLabel = resultsLabel;
         this.progressBar = progressBar;
+        this.copyResult = copyResult;
     }
 
     @Override
@@ -80,9 +83,15 @@ public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
                 if (get().size() == 1) { // Given number is a prime itself
                     resultsLabel.setText(null);
                     resultsLabel.setText("Given number is a prime itself.");
+
+                    copyResult = "Given number:\n" + bi + "\n\n" + "is a prime number";
+
                 } else { // In this case the prime factors of the given number are printed
                     resultsLabel.setText(null);
                     resultsLabel.setText("<html>Given number's prime factors are: <b>" + get() + "</b></html>");
+
+                    // Message for clipboard
+                    copyResult = "Given number:\n" + bi + "\n\nPrime factors:\n" + get();
                 }
             }
 
