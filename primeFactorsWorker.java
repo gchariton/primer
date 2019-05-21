@@ -76,6 +76,8 @@ public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
                 progressBar.setVisible(false);
 
                 // Reset calculation button
+                calcButton.setBackground(null);
+                calcButton.setBackground(new JButton().getBackground());
                 calcButton.setText(null);
                 calcButton.setText("Calculate!");
 

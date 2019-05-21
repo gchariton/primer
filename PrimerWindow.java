@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -188,6 +189,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
                 resultsLabel.setText("Calculating...");
                 progressBar.setVisible(true);
                 calcButton.setText(null);
+                calcButton.setBackground(new Color(255, 230, 230));
                 calcButton.setText("Click here to cancel process");
 
                 primeWorker = new primeFactorsWorker(new BigInteger(textField.getText()), calcButton, resultsLabel,
@@ -206,6 +208,8 @@ public class PrimerWindow extends JFrame implements ActionListener {
             progressBar.setVisible(false);
 
             // Reset calculation button
+            calcButton.setBackground(null);
+            calcButton.setBackground(new JButton().getBackground());
             calcButton.setText(null);
             calcButton.setText("Calculate!");
 
