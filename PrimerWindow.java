@@ -38,8 +38,8 @@ public class PrimerWindow extends JFrame implements ActionListener {
     private JButton calcButton;
     private JLabel resultsLabel;
     private JProgressBar progressBar;
-    private String copyResult = "";
-    private SwingWorker primeWorker;
+    private String copyResult;
+    private PrimeFactorsWorker primeWorker;
 
     // CONSTANT fields
     private final String UI_STYLE = "Windows";
@@ -81,7 +81,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
         actionsMenu = new JMenu("Actions");
         menuBar.add(actionsMenu);
 
-        copyItem = new JMenuItem("Copy");
+        copyItem = new JMenuItem("Copy", new ImageIcon(PrimerWindow.class.getResource("/images/icons/copy.png")));
         actionsMenu.add(copyItem);
         copyItem.addActionListener(this);
 
@@ -157,6 +157,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
 
         switch (actionCommand) {
         case ("Copy"): {
+            copyResult = primeWorker.getCopyResult();
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             Clipboard clipboard = toolkit.getSystemClipboard();
             StringSelection strSel = new StringSelection(copyResult);
@@ -192,7 +193,7 @@ public class PrimerWindow extends JFrame implements ActionListener {
                 calcButton.setBackground(new Color(255, 230, 230));
                 calcButton.setText("Click here to cancel process");
 
-                primeWorker = new primeFactorsWorker(new BigInteger(textField.getText()), calcButton, resultsLabel,
+                primeWorker = new PrimeFactorsWorker(new BigInteger(textField.getText()), calcButton, resultsLabel,
                         progressBar, copyResult);
                 primeWorker.execute();
 

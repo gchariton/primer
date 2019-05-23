@@ -7,18 +7,21 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
-public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
+public class PrimeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
 
     private List<BigInteger> primeFactorsList;
     private BigInteger bi;
+    private BigInteger biUnchanged;
     private JButton calcButton;
     private JLabel resultsLabel;
     private JProgressBar progressBar;
-    private String copyResult = "";
+    private String copyResult;
 
     // Constructor
-    public primeFactorsWorker(BigInteger bi, JButton calcButton, JLabel resultsLabel, JProgressBar progressBar,
+    public PrimeFactorsWorker(BigInteger bi, JButton calcButton, JLabel resultsLabel, JProgressBar progressBar,
             String copyResult) {
+
+        this.biUnchanged = new BigInteger(bi.toString());
         this.bi = bi;
         this.calcButton = calcButton;
         this.resultsLabel = resultsLabel;
@@ -86,14 +89,18 @@ public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
                     resultsLabel.setText(null);
                     resultsLabel.setText("Given number is a prime itself.");
 
-                    copyResult = "Given number:\n" + bi + "\n\n" + "is a prime number";
+                    // Message for clipboard
+                    copyResult = "Given number:\n" + biUnchanged + "\n\n" + "This is a prime number!";
+                    this.setCopyResult(copyResult);
 
                 } else { // In this case the prime factors of the given number are printed
                     resultsLabel.setText(null);
                     resultsLabel.setText("<html>Given number's prime factors are: <b>" + get() + "</b></html>");
 
                     // Message for clipboard
-                    copyResult = "Given number:\n" + bi + "\n\nPrime factors:\n" + get();
+                    copyResult = "Given number:\n" + biUnchanged + "\n\nPrime factors:\n" + get();
+                    this.setCopyResult(copyResult);
+
                 }
             }
 
@@ -103,4 +110,11 @@ public class primeFactorsWorker extends SwingWorker<List<BigInteger>, Integer> {
 
     }
 
+    public String getCopyResult() {
+        return this.copyResult;
+    }
+
+    public void setCopyResult(String msg) {
+        this.copyResult = msg;
+    }
 }
