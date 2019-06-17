@@ -16,8 +16,7 @@ Standard style, using exclusively VS Code.
 
 ## Known bugs
 
-- Copy to clipboard does not work under Ubuntu
-  > The problem happens because Xorg takes a conservative approach to copying. It copies only a reference to the original data when the user performs a select or copy. It doesn't go and retrieve the actual data from the source program until the user requests a paste. It saves a lot of unneeded transfer of data this way, at the expense of having no way of retrieving data from a closed program that hasn't saved its clipboard somewhere else.
+//
 
 ## Screenshots
 
